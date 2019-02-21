@@ -1,0 +1,1 @@
+{"version":3,"file":"recipe_ingredient.js","sourceRoot":"","sources":["../../../server/models/recipe_ingredient.ts"],"names":[],"mappings":";;AAAA,mCAAqC;AACrC,IAAM,YAAY,GAAG,IAAI,QAAQ,CAAC,MAAM,CAAC;IACrC,SAAS,EAAE,MAAM;IACjB,IAAI,EAAE,MAAM;CACf,CAAC,CAAC;AACH,IAAM,iBAAiB,GAAG,QAAQ,CAAC,KAAK,CAAC,oBAAoB,EAAE,YAAY,CAAC,CAAC;AAE7E,kBAAe,iBAAiB,CAAC"}

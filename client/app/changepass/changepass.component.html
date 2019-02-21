@@ -1,0 +1,42 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header">Change Password:</h4>
+  <div class="card-body">
+    <form [formGroup]="changePassForm" (ngSubmit)="save(contact)">
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="password" formControlName="old" placeholder="Old password" required>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="password" formControlName="newPass" placeholder="New password" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="password" formControlName="confirm" placeholder="Confirm password" required>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!changePassForm.valid">
+        <i class="fa fa-save"></i> Update
+      </button>
+    </form>
+  </div>
+</div>

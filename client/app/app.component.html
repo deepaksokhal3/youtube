@@ -1,0 +1,240 @@
+<div class="container" id="container">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content" aria-controls="navbar-supported-content"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-supported-content">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/contact" class="nav-link" routerLinkActive="active">
+            <i class="fa fa-envelope"></i> Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" data-toggle="modal" class="nav-link" data-target="#loginModal" routerLinkActive="active" *ngIf="!auth.loggedIn">
+            <i class="fa fa-sign-in"></i> Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-toggle="modal" data-target="#signUpModal" routerLinkActive="active" *ngIf="!auth.loggedIn">
+            <i class="fa fa-user-plus"></i> Register
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/myvideos" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-youtube-play"></i> My Recipes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/addyoutubevideo" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-youtube-play"></i> Add Recipe
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/setting" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-cog"></i> Setting
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/changepass" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-cog"></i> change password
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/account" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-user"></i> Account ({{auth.currentUser.username}})
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/admin" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn && auth.isAdmin">
+            <i class="fa fa-lock"></i> Admin
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/logout" class="nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-sign-out"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <app-toast [message]="toast.message"></app-toast>
+  <router-outlet></router-outlet>
+  <!-- Sign-up Modal -->
+  <div class="modal fade" id="signUpModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Sign Up</h4>
+          <button type="button" class="close" data-dismiss="modal" id="closeSignupModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <div class="input-group" [ngClass]="setClassUsername()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-user"></i>
+                </span>
+              </div>
+              <input class="form-control" type="text" name="username" formControlName="username" placeholder="Username" autofocus="off">
+              <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error-message">
+                <div *ngIf="username.errors.required">
+                  Username is required.
+                </div>
+                <div *ngIf="username.errors.minlength || username.errors.maxLength">
+                  Username must be 2-30 characters long.
+                </div>
+                <div *ngIf="username.errors.pattern">
+                  Username must be characters and number.
+                </div>
+              </div>
+            </div>
+            <div class="input-group" [ngClass]="setClassEmail()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+              <input class="form-control" type="email" name="email" formControlName="email" placeholder="Email" autofocus="off">
+
+              <div *ngIf="email.errors && (email.dirty || email.touched)" class="error-message">
+                <div *ngIf="email.errors.required">
+                  Email is required.
+                </div>
+                <!-- <div *ngIf="email.errors.pattern">
+                  Please enter valid email.
+                </div> -->
+              </div>
+
+            </div>
+            <div class="input-group" [ngClass]="setClassPassword()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-key"></i>
+                </span>
+              </div>
+              <input class="form-control" type="password" formControlName="password" placeholder="Password">
+              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+                <div *ngIf="password.errors.required">
+                  Password is required.
+                </div>
+                <div *ngIf="password.errors.minLength">
+                  Please enter at least 6 characters long.
+                </div>
+              </div>
+            </div>
+            <div class="input-group" [ngClass]="setClassPassword()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-key"></i>
+                </span>
+              </div>
+              <input class="form-control" type="password" formControlName="confirm_password" placeholder="Confirm password" (ngModelChange)="confirmPassword($event)">
+              <div class="error-message" *ngIf="confirmPass">Password not match</div>
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!registerForm.valid">
+              <i class="fa fa-user-plus"></i> Register
+            </button>
+          </form>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <!-- End sign-up modal -->
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Login</h4>
+          <button type="button" class="close" data-dismiss="modal" id="closeLoginModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- Login form -->
+          <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!auth.loginSecondStep">
+            <div class="input-group" [ngClass]="setClassLoginEmail()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+              <input class="form-control" type="email" formControlName="email" placeholder="Email" autofocus>
+            </div>
+            <div class="input-group" [ngClass]="setClassLoginPassword()">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-key"></i>
+                </span>
+              </div>
+              <input class="form-control" type="password" formControlName="password" placeholder="Password">
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
+              <i class="fa fa-sign-in"></i> Login
+            </button>
+            <button class="btn btn-primary" type="button" (click)="socialSignIn( 'facebook')">Sign in with Facebook</button>
+            <button class="btn btn-danger" type="button" (click)="socialSignIn( 'google')">Sign in with Google</button>
+            <a href="# " data-toggle="modal" data-dismiss="modal" data-target="#resetModal">Forget password</a>
+          </form>
+
+          <!-- confirm Login user form -->
+          <form [formGroup]="loginConfirmForm" (ngSubmit)="confirmLoginUser()" *ngIf="auth.loginSecondStep">
+            <div class="input-group ">
+              <div class="input-group-prepend ">
+                <span class="input-group-text ">
+                  <i class="fa fa-key "></i>
+                </span>
+              </div>
+              <input class="form-control" type="text" formControlName="confirmCode" placeholder="Enter code">
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!loginConfirmForm.valid">
+              <i class="fa fa-sign-in "></i> submit
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Login-up modal -->
+
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="resetModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Forget</h4>
+          <button type="button" class="close" data-dismiss="modal" id="closeForgetModal ">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="forgetForm" (ngSubmit)="forget()">
+            <div class="input-group ">
+              <div class="input-group-prepend ">
+                <span class="input-group-text ">
+                  <i class="fa fa-envelope "></i>
+                </span>
+              </div>
+              <input class="form-control" type="email" formControlName="email" placeholder="Email" autofocus>
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!forgetForm.valid">
+              <i class="fa fa-sign-in "></i> submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Login-up modal -->
+</div>

@@ -1,0 +1,44 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card mb-3" *ngIf="!isLoading">
+  <h4 class="card-header">My Recipes
+    <i (click)="addNewRecipe()" class="fa fa-plus-square add-new-rep"></i>
+  </h4>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col" width="500">Title</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="recipes && recipes.length === 0">
+        <tr>
+          <td colspan="4">There are no recipe video in the DB. Add a new new video.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr *ngFor="let recipe of recipes; let i = index;">
+          <td>
+            <div [innerHtml]="recipe.videolink">
+
+            </div>
+          </td>
+          <td>{{recipe.title}}</td>
+          <td>
+            <a routerLink="/editvideo/{{recipe._id}}" class="btn btn-sm btn-primary" routerLinkActive="active">
+              <i class="fa fa-pencil"></i>Edit</a>
+            <button class="btn btn-sm btn-danger ml-1" (click)="deleteRecipe(recipe)">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+            <a routerLink="/single/{{recipe._id}}" class="btn btn-sm btn-primary" routerLinkActive="active">
+              <i class="fa fa-eye"></i>view</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header">Setting</h4>
+  <div class="card-body">
+    <form [formGroup]="settingFrom" (ngSubmit)="save()">
+      <div class="row">
+        <div class="form-check col-6">
+          <input class="form-check-input" formControlName="allow_location" type="checkbox">
+          <label>Location Allow/Disallow (City)</label>
+        </div>
+        <div class="form-check col-6">
+          <input class="form-check-input" formControlName="subscribe" type="checkbox">
+          <label>Linked YouTube Account</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-check col-6">
+          <input class="form-check-input" formControlName="link_youtube_account" type="checkbox">
+          <label>Subscribe to Notifications (Yes / No)</label>
+        </div>
+        <div class="form-check col-6">
+          <input class="form-check-input" formControlName="two_step_verification" type="checkbox">
+          <label>2 Step Verification Via Email </label>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!settingFrom.valid">
+        <i class="fa fa-save"></i> Save Setting
+      </button>
+    </form>
+  </div>
+</div>

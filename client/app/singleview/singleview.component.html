@@ -1,0 +1,24 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header"></h4>
+  <div class="card-body">
+    <!-- Blog Post -->
+    <div class="card mb-4">
+      <div [innerHtml]="recipe.videolink">
+
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">{{recipe.title}}</h2>
+        <p class="card-text" [innerHtml]="recipe.description"></p>
+        <!-- <a href="#" class="btn btn-primary">Read More &rarr;</a> -->
+      </div>
+      <div class="card-footer text-muted">
+        Publish by {{recipe.youtube_publisher_name}} on {{recipe.youtube_publish_date |date:'fullDate'}}
+        <span>Comments {{recipe.youtube_total_comments}}</span>
+      </div>
+    </div>
+  </div>
+</div>

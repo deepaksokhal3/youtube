@@ -1,0 +1,125 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header">Account Details:</h4>
+  <div class="card-body">
+    <form #accountForm="ngForm" (ngSubmit)="save(user)">
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="username" [(ngModel)]="user.username" placeholder="Username" required>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-envelope"></i>
+            </span>
+          </div>
+          <input class="form-control" type="email" name="email" [(ngModel)]="user.email" placeholder="Email" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group col-6">
+          <img [src]="profilePicUrl != null?profilePicUrl:''" height="100">
+          <input type='file' (change)="onSelectFile($event,user)">
+        </div>
+      </div>
+      <hr>
+      <h4>Personal Details:</h4>
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="fname" [(ngModel)]="user.fname" placeholder="First Name" required>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="lname" [(ngModel)]="user.lname" placeholder="Last Name" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+          <input class="form-control" type="date" name="dob" [(ngModel)]="user.dob" placeholder="DOB" required>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-calendar"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="phone_number" [(ngModel)]="user.phone_number" placeholder="Phone Number">
+        </div>
+      </div>
+      <hr>
+
+      <h4>Interests & location:</h4>
+      <div class="row">
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select tags'" [ngStyle]="{'padding':0 }" class="form-control" name="selectedItems"
+            [(ngModel)]="selectedItems" [data]="dropdownList" [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="country" [(ngModel)]="user.country" placeholder="Enter country" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="state" [(ngModel)]="user.state" placeholder="Enter state" required>
+        </div>
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="city" [(ngModel)]="user.city" placeholder="Enter city" required autocomplete="off"
+            autofocus>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-pin"></i>
+            </span>
+          </div>
+          <input class="form-control" type="text" name="zip_code" [(ngModel)]="user.zip_code" placeholder="Enter zip-code" required>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="!accountForm.form.valid">
+        <i class="fa fa-save"></i> Update
+      </button>
+    </form>
+  </div>
+</div>

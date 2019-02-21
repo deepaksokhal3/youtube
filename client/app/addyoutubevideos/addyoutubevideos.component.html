@@ -1,0 +1,159 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header">Add Recipe:</h4>
+  <div class="card-body">
+    <form [formGroup]="recipeForm" (ngSubmit)="save(recipe)">
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input class="form-control" type="url" formControlName="youtube_link" placeholder="Enter youtube,vimeo link" (change)="placeVideoId($event)"
+            required>
+        </div>
+        <div class="input-group col-6">
+          <input class="form-control" type="text" formControlName="title" placeholder="Enter video title" required>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-12">
+          <app-ngx-editor [placeholder]="'Enter text here...'" height="300px" formControlName="description" [spellcheck]="true"></app-ngx-editor>
+          <!-- <textarea class="form-control" rows="8" formControlName="description" placeholder="Enter description"></textarea> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group col-6">
+          <input class="form-control" type="number" formControlName="service_quantity" placeholder="Enter quantity" required>
+        </div>
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select units'" [ngStyle]="{'padding':0 }" formControlName="serving_unitss" class="form-control"
+            [data]="unitsList" [settings]="unitsDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <input class="form-control" type="number" formControlName="preparation_time" placeholder="Enter preparation time" required>
+        </div>
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select cuisine'" [ngStyle]="{'padding':0 }" class="form-control" formControlName="cuisines"
+            [data]="cuisinesList" [settings]="cuisineDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+
+
+      <hr>
+      <h4 class="card-header">Ingredient:</h4>
+      <form [formGroup]="ingredientMultForm" (ngSubmit)="saveMul(ingradient)">
+        <ng-container formArrayName="rows">
+          <div class="row" *ngFor="let ingredient of ingredientMultForm.get('rows')['controls']; let i = index" [formGroupName]="i">
+            <div class="input-group col-12">
+              <select formControlName="ingredientName" class="form-control">main ingredient
+                <option value=""> Select unit</option>
+                <option *ngFor="let mainIngr of mainIngredientsList" value="{{mainIngr._id}}"> {{mainIngr.name}}</option>
+              </select>
+              <input class="form-control" type="number" formControlName="qty" placeholder="Enter quantity">
+              <select formControlName="unit" class="form-control">ingredients
+                <option value=""> Select unit</option>
+                <option *ngFor="let unit of unitsList" value="{{unit._id}}"> {{unit.name}}</option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+
+      <form [formGroup]="ingredientForm" (ngSubmit)="saveIngredient(ingradient)">
+
+        <div class="row">
+          <div class="input-group col-12">
+            <select formControlName="ingredient_name" class="form-control">main ingredient
+              <option value=""> Select unit</option>
+              <option *ngFor="let mainIngr of mainIngredientsList" value="{{mainIngr._id}}"> {{mainIngr.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group col-6">
+            <input class="form-control" type="number" formControlName="quantities" placeholder="Enter quantity" required>
+          </div>
+
+          <div class="input-group col-6">
+            <select [ngStyle]="{'padding':0 }" formControlName="units" class="form-control">
+              <option value=""> Select unit</option>
+              <option *ngFor="let unit of unitsList" value="{{unit._id}}"> {{unit.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="input-group col-6">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-save"></i> Add Ingredient
+            </button>
+          </div>
+        </div>
+      </form>
+      <hr>
+
+
+      <h4 class="card-header">Details:</h4>
+      <div class="row">
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select ingredients'" [ngStyle]="{'padding':0 }" class="form-control" [data]="mainIngredientsList"
+            formControlName="main_ingredientss" [settings]="mainIngredientDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select recipe type'" [ngStyle]="{'padding':0 }" class="form-control" formControlName="type_of_recipes"
+            [data]="recipeTypesList" [settings]="recipeTypeDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select meals'" [ngStyle]="{'padding':0 }" class="form-control" [data]="mealsList"
+            formControlName="meals" [settings]="mealDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select preparation method'" [ngStyle]="{'padding':0 }" class="form-control" [data]="preparationMethodsList"
+            formControlName="preparation_methods" [settings]="preparationMethodDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select dietary consideration'" [ngStyle]="{'padding':0 }" class="form-control" [data]="dietarysList"
+            formControlName="dietary_considerations" [settings]="dietaryDropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="input-group col-6">
+          <ng-multiselect-dropdown [placeholder]="'Select holiday'" [ngStyle]="{'padding':0 }" class="form-control" [data]="holidaysList"
+            formControlName="holidays" [settings]="holidayDropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="input-group col-6">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>

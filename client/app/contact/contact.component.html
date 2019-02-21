@@ -1,0 +1,41 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h4 class="card-header">Contact</h4>
+  <div class="card-body">
+    <form [formGroup]="contactForm" (ngSubmit)="send(contact)">
+      <div class="row">
+        <div class="input-group col-6">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-envelope"></i>
+            </span>
+          </div>
+
+          <input class="form-control" type="email" formControlName="email" placeholder="Enter email address" required>
+        </div>
+        <div class="input-group col-6">
+          <input class="form-control" type="text" formControlName="subject" placeholder="Enter subject" required>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-group col-12">
+          <textarea class="form-control" formControlName="description" placeholder="Enter description"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="input-group col-6">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i> Send
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

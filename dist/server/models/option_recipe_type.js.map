@@ -1,0 +1,1 @@
+{"version":3,"file":"option_recipe_type.js","sourceRoot":"","sources":["../../../server/models/option_recipe_type.ts"],"names":[],"mappings":";;AAAA,mCAAqC;AAGrC,IAAM,sBAAsB,GAAG,IAAI,QAAQ,CAAC,MAAM,CAAC;IAC/C,IAAI,EAAE,MAAM;CACf,CAAC,CAAC;AAEH,IAAM,kBAAkB,GAAG,QAAQ,CAAC,KAAK,CAAC,qBAAqB,EAAE,sBAAsB,CAAC,CAAC;AAEzF,kBAAe,kBAAkB,CAAC"}
